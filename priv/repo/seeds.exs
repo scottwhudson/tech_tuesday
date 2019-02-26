@@ -9,3 +9,18 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+defmodule TechThursday.Processor do
+  def process({:ok, _foo}) do
+    IO.puts "ok!"
+  end
+
+  def process({:error, _foo}) do
+    IO.puts "Error!"
+  end
+end
+
+file = File.stream!("./priv/repo/demo_data.csv") |> CSV.decode(headers: true)
+
+
+Enum.each(file, fn(x) -> TechThursday.Processor.process(x) end)
